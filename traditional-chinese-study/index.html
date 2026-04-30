@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>學中文 — Learn Traditional Chinese</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">學中文</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="vocabulary.html">詞彙</a></li>
+      <li><a href="reading.html">閱讀</a></li>
+      <li><a href="grammar.html">文法</a></li>
+      <li><a href="strokes.html">筆順</a></li>
+      <li><a href="conversation.html">對話</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Main ─────────────────────────────────────────────────── -->
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag">Open Source · Traditional Chinese · 繁體字</div>
+    <h1 class="hero-title">學習繁體中文</h1>
+    <p class="hero-subtitle">Learn Traditional Chinese — vocabulary, reading, grammar, stroke order, and AI conversation practice, all in one place.</p>
+  </section>
+
+  <!-- Feature Cards -->
+  <div class="card-grid">
+    <div class="feature-card">
+      <div class="feature-card-icon">📚</div>
+      <div class="feature-card-title">詞彙 Vocabulary</div>
+      <div class="feature-card-desc">Browse flash-card style vocabulary with pinyin, meanings, and example sentences. Filter by category and track your progress.</div>
+      <a class="btn btn-primary" href="vocabulary.html">Open →</a>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card-icon">📖</div>
+      <div class="feature-card-title">閱讀 Reading</div>
+      <div class="feature-card-desc">Read passages at beginner, intermediate, and advanced levels. Tap any word for instant pinyin and meaning lookup.</div>
+      <a class="btn btn-primary" href="reading.html">Open →</a>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card-icon">🔤</div>
+      <div class="feature-card-title">文法 Grammar</div>
+      <div class="feature-card-desc">Clear, concise notes on key Mandarin grammar patterns with example sentences and English explanations.</div>
+      <a class="btn btn-primary" href="grammar.html">Open →</a>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card-icon">✍️</div>
+      <div class="feature-card-title">筆順 Stroke Order</div>
+      <div class="feature-card-desc">Learn the correct stroke order for common characters. Step through each stroke or watch an animation.</div>
+      <a class="btn btn-primary" href="strokes.html">Open →</a>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card-icon">💬</div>
+      <div class="feature-card-title">對話 Conversation</div>
+      <div class="feature-card-desc">Practice speaking with an AI partner across real-life scenarios: ordering food, asking directions, and more.</div>
+      <a class="btn btn-primary" href="conversation.html">Open →</a>
+    </div>
+  </div>
+
+  <!-- Progress Stats -->
+  <section class="stats-section">
+    <div class="stats-title">Your Progress</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-streak">0</div>
+        <div class="stat-label">Day Streak 🔥</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-vocab">0</div>
+        <div class="stat-label">Words Learned 📚</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-passages">0</div>
+        <div class="stat-label">Passages Read 📖</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-days">0</div>
+        <div class="stat-label">Days Studied 🗓️</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer>
+  <p>學中文 — Open-source Traditional Chinese study tool · <a href="https://github.com/anthropics/claude-code" style="color:var(--primary)">Contribute on GitHub</a> · MIT License</p>
+</footer>
+
+<script src="data/vocabulary.js"></script>
+<script src="data/reading.js"></script>
+<script src="data/grammar.js"></script>
+<script src="data/strokes.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

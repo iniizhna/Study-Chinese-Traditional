@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>閱讀 Reading — 學中文</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">學中文</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="vocabulary.html">詞彙</a></li>
+      <li><a href="reading.html">閱讀</a></li>
+      <li><a href="grammar.html">文法</a></li>
+      <li><a href="strokes.html">筆順</a></li>
+      <li><a href="conversation.html">對話</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <!-- Passage list -->
+  <div id="listView">
+    <div class="page-header">
+      <h1 class="page-title">閱讀 Reading</h1>
+      <p class="page-subtitle">Click any passage to open it. Tap annotated words for instant pinyin and definitions.</p>
+    </div>
+
+    <div class="reading-list" id="readingList">
+      <div class="loading-state">Loading passages…</div>
+    </div>
+  </div>
+
+  <!-- Single passage view -->
+  <div class="passage-view" id="passageView">
+    <div class="passage-header">
+      <button class="btn btn-ghost btn-sm" onclick="backToList()">← Back</button>
+      <div id="passageTitle" class="passage-title"></div>
+    </div>
+
+    <div class="passage-controls">
+      <button class="btn btn-outline btn-sm" id="btnPinyinToggle">Hide Pinyin</button>
+      <button class="btn btn-primary btn-sm" id="btnMarkRead">✓ Mark as Read</button>
+    </div>
+
+    <div class="passage-text" id="passageTextEl"></div>
+
+    <p style="font-size:.8rem;color:var(--muted);margin-top:1rem">
+      💡 Tap any highlighted word to see its pinyin and meaning.
+    </p>
+  </div>
+</main>
+
+<footer>
+  <p>學中文 — Open-source Traditional Chinese study tool · MIT License</p>
+</footer>
+
+<script src="data/vocabulary.js"></script>
+<script src="data/reading.js"></script>
+<script src="data/grammar.js"></script>
+<script src="data/strokes.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>詞彙 Vocabulary — 學中文</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">學中文</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="vocabulary.html">詞彙</a></li>
+      <li><a href="reading.html">閱讀</a></li>
+      <li><a href="grammar.html">文法</a></li>
+      <li><a href="strokes.html">筆順</a></li>
+      <li><a href="conversation.html">對話</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1 class="page-title">詞彙 Vocabulary</h1>
+    <p class="page-subtitle">Browse words, filter by category, and mark them as learned. Progress is saved in your browser.</p>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <input
+      id="vocabSearch"
+      class="search-input"
+      type="search"
+      placeholder="Search Chinese, pinyin, or English…"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="controls" style="margin-top:-.75rem">
+    <div class="section-label" style="width:100%">Filter by category</div>
+    <div class="filter-chips" id="vocabFilters"></div>
+  </div>
+
+  <!-- Vocabulary Grid -->
+  <div class="vocab-grid" id="vocabGrid">
+    <div class="loading-state">Loading vocabulary…</div>
+  </div>
+</main>
+
+<footer>
+  <p>學中文 — Open-source Traditional Chinese study tool · MIT License</p>
+</footer>
+
+<script src="data/vocabulary.js"></script>
+<script src="data/reading.js"></script>
+<script src="data/grammar.js"></script>
+<script src="data/strokes.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>對話 Conversation — 學中文</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">學中文</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="vocabulary.html">詞彙</a></li>
+      <li><a href="reading.html">閱讀</a></li>
+      <li><a href="grammar.html">文法</a></li>
+      <li><a href="strokes.html">筆順</a></li>
+      <li><a href="conversation.html">對話</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1 class="page-title">對話 Conversation Partner</h1>
+    <p class="page-subtitle">Choose a scenario and chat in Traditional Chinese. The AI corrects mistakes and teaches vocabulary as you go.</p>
+  </div>
+
+  <div class="conv-layout">
+
+    <!-- API key notice -->
+    <div class="api-notice" id="apiNotice" style="display:none">
+      ⚠️ <strong>API key not configured.</strong>
+      Open <code>config.js</code> and paste your
+      <a href="https://console.anthropic.com/" target="_blank" rel="noopener">Anthropic API key</a>
+      to enable the conversation partner.
+    </div>
+
+    <!-- Scenario selector -->
+    <div class="scenario-row">
+      <div class="scenario-label">Choose a scenario 選擇情境</div>
+      <div class="scenario-chips" id="scenarioChips"></div>
+    </div>
+
+    <!-- Display toggles -->
+    <div>
+      <div class="section-label">Display options</div>
+      <div class="toggle-row">
+        <button class="toggle-btn on" id="togglePinyin">拼音 Pinyin</button>
+        <button class="toggle-btn on" id="toggleTranslation">翻譯 Translation</button>
+        <button class="toggle-btn on" id="toggleCorrections">✏️ Corrections</button>
+      </div>
+    </div>
+
+    <!-- Chat window -->
+    <div class="chat-window" id="chatWindow"></div>
+
+    <!-- Input row -->
+    <div class="chat-input-area">
+      <textarea
+        id="chatInput"
+        class="chat-input"
+        placeholder="Type in Chinese or English… Press Enter to send"
+        rows="1"
+      ></textarea>
+      <button class="btn btn-primary" id="sendBtn">Send</button>
+      <button class="btn btn-ghost" id="clearBtn" title="Clear conversation">🗑</button>
+    </div>
+
+    <p style="font-size:.75rem;color:var(--muted)">
+      Conversation history is saved per scenario in your browser.
+      Your API key is used directly from <code>config.js</code> — it never leaves your device.
+    </p>
+  </div>
+</main>
+
+<footer>
+  <p>學中文 — Open-source Traditional Chinese study tool · MIT License</p>
+</footer>
+
+<script src="data/vocabulary.js"></script>
+<script src="data/reading.js"></script>
+<script src="data/grammar.js"></script>
+<script src="data/strokes.js"></script>
+<script src="config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/conversation.js"></script>
+</body>
+</html>

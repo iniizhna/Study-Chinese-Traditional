@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>筆順 Stroke Order — 學中文</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">學中文</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="vocabulary.html">詞彙</a></li>
+      <li><a href="reading.html">閱讀</a></li>
+      <li><a href="grammar.html">文法</a></li>
+      <li><a href="strokes.html">筆順</a></li>
+      <li><a href="conversation.html">對話</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1 class="page-title">筆順 Stroke Order</h1>
+    <p class="page-subtitle">Use <strong>Next ›</strong> to step through strokes one at a time, or <strong>▶</strong> to animate the full sequence automatically.</p>
+  </div>
+
+  <div style="margin-bottom:1.25rem">
+    <button class="btn btn-ghost btn-sm" onclick="animateAll()">▶ Animate All</button>
+    <button class="btn btn-ghost btn-sm" style="margin-left:.4rem" onclick="resetAll()">↺ Reset All</button>
+  </div>
+
+  <div class="strokes-grid" id="strokesGrid">
+    <div class="loading-state">Loading stroke data…</div>
+  </div>
+</main>
+
+<footer>
+  <p>學中文 — Open-source Traditional Chinese study tool · MIT License</p>
+</footer>
+
+<script src="data/vocabulary.js"></script>
+<script src="data/reading.js"></script>
+<script src="data/grammar.js"></script>
+<script src="data/strokes.js"></script>
+<script src="js/main.js"></script>
+<script>
+  function animateAll() {
+    strokesData.forEach(s => {
+      if (typeof strokeAnimate === 'function') strokeAnimate(s.id, s.strokeCount);
+    });
+  }
+  function resetAll() {
+    strokesData.forEach(s => {
+      if (typeof strokeReset === 'function') strokeReset(s.id, s.strokeCount);
+    });
+  }
+</script>
+</body>
+</html>

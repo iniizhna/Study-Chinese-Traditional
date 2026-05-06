@@ -3,11 +3,320 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>筆順 Stroke Order — 學中文</title>
+  <title>部首學習 Radical Learning — 學中文</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PGREQC103Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PGREQC103Z');
+  </script>
+  <style>
+    /* ── Stats bar ───────────────────────────────────────────── */
+    .rad-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+      margin-bottom: .9rem;
+    }
+    .rad-stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .6rem .95rem;
+      text-align: center;
+      min-width: 80px;
+      flex: 1;
+    }
+    .rad-stat-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .rad-stat-label {
+      font-size: .67rem;
+      color: var(--muted);
+      margin-top: .2rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-weight: 600;
+    }
+
+    /* ── Progress bar ────────────────────────────────────────── */
+    .rad-prog-wrap {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1.4rem;
+    }
+    .rad-prog-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .rad-prog-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 99px;
+      transition: width .4s ease;
+    }
+    .rad-prog-label {
+      font-size: .75rem;
+      color: var(--muted);
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    /* ── Controls ────────────────────────────────────────────── */
+    .rad-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    .rad-controls .search-input { max-width: 280px; }
+    .result-badge {
+      font-size: .75rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .15rem .65rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* ── Detail panel ────────────────────────────────────────── */
+    .rad-detail {
+      background: var(--bg);
+      border: 1.5px solid var(--primary);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.5rem;
+      margin-bottom: 1.4rem;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(59,111,232,.1);
+    }
+    .rad-detail-close {
+      position: absolute;
+      top: .75rem;
+      right: .9rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: .1rem .35rem;
+      border-radius: var(--radius);
+      transition: background var(--transition), color var(--transition);
+    }
+    .rad-detail-close:hover { background: var(--surface); color: var(--text); }
+
+    .rad-detail-body {
+      display: flex;
+      gap: 1.75rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .rad-detail-char {
+      font-family: var(--font-chinese);
+      font-size: 5rem;
+      line-height: 1;
+      font-weight: 900;
+      flex-shrink: 0;
+      color: var(--text);
+    }
+    .rad-detail-info { flex: 1; min-width: 180px; }
+    .rad-detail-py {
+      color: var(--primary);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: .2rem;
+    }
+    .rad-detail-meaning {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .55rem;
+    }
+    .rad-detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-bottom: .9rem;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+    .rad-detail-meta span {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .15rem .6rem;
+    }
+    .rad-detail-examples-label {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--muted);
+      margin-bottom: .45rem;
+    }
+    .rad-detail-examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-bottom: 1rem;
+    }
+    .ex-chip {
+      font-family: var(--font-chinese);
+      font-size: 1.15rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: var(--radius);
+      padding: .25rem .65rem;
+      cursor: default;
+      transition: background var(--transition);
+      font-weight: 600;
+    }
+    .rad-practice-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .42rem 1rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-ui);
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background var(--transition);
+    }
+    .rad-practice-btn:hover { background: var(--primary-hover); }
+
+    /* ── Radical grid ────────────────────────────────────────── */
+    .rad-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: .75rem;
+    }
+
+    /* ── Radical card ────────────────────────────────────────── */
+    .rad-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: .85rem .75rem .7rem;
+      cursor: pointer;
+      transition: box-shadow var(--transition), border-color var(--transition), background var(--transition);
+      position: relative;
+      text-align: center;
+    }
+    .rad-card:hover { box-shadow: var(--shadow-up); border-color: var(--primary); }
+    .rad-card.selected { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(59,111,232,.18); }
+    .rad-card.learned-card { border-color: #86efac; background: #f0fdf4; }
+
+    /* top-left stroke count */
+    .rad-stroke-badge {
+      position: absolute;
+      top: .45rem;
+      left: .5rem;
+      font-size: .62rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .05rem .38rem;
+      line-height: 1.5;
+    }
+
+    /* top-right category badge */
+    .rad-cat-badge {
+      position: absolute;
+      top: .45rem;
+      right: .5rem;
+      font-size: .58rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: .06rem .4rem;
+      line-height: 1.5;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    /* bookmark toggle */
+    .rad-bookmark {
+      position: absolute;
+      bottom: .45rem;
+      right: .5rem;
+      font-size: .9rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      opacity: .45;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .rad-bookmark:hover { opacity: 1; transform: scale(1.2); }
+    .rad-bookmark.marked { opacity: 1; }
+
+    .rad-char {
+      font-family: var(--font-chinese);
+      font-size: 2.25rem;
+      line-height: 1.1;
+      font-weight: 700;
+      margin-bottom: .08rem;
+    }
+    .rad-alt {
+      font-family: var(--font-chinese);
+      font-size: .78rem;
+      color: var(--muted);
+      margin-bottom: .1rem;
+      min-height: 1em;
+    }
+    .rad-py {
+      color: var(--primary);
+      font-size: .82rem;
+      font-weight: 600;
+      margin-bottom: .15rem;
+    }
+    .rad-meaning {
+      font-size: .72rem;
+      color: var(--muted);
+    }
+
+    /* ── Category colors ─────────────────────────────────────── */
+    .cat-nature  { background: #E1F5EE; color: #0F6E56; }
+    .cat-body    { background: #FBEAF0; color: #993556; }
+    .cat-people  { background: #E6F1FB; color: #185FA5; }
+    .cat-objects { background: #FAEEDA; color: #854F0B; }
+    .cat-actions { background: #EEEDFE; color: #534AB7; }
+
+    /* ── Empty state ─────────────────────────────────────────── */
+    .rad-empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+    .rad-empty-icon { font-size: 2.5rem; margin-bottom: .5rem; }
+
+    @media (max-width: 480px) {
+      .rad-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+      .rad-detail-char { font-size: 3.5rem; }
+    }
+  </style>
 </head>
 <body>
 
@@ -22,7 +331,7 @@
       <li><a href="vocabulary.html">詞彙</a></li>
       <li><a href="reading.html">閱讀</a></li>
       <li><a href="grammar.html">文法</a></li>
-      <li><a href="strokes.html">筆順</a></li>
+      <li><a href="strokes.html" class="active">部首</a></li>
       <li><a href="conversation.html">對話</a></li>
     </ul>
   </div>
@@ -30,40 +339,330 @@
 
 <main>
   <div class="page-header">
-    <h1 class="page-title">筆順 Stroke Order</h1>
-    <p class="page-subtitle">Use <strong>Next ›</strong> to step through strokes one at a time, or <strong>▶</strong> to animate the full sequence automatically.</p>
+    <h1 class="page-title">部首學習 — Radical Learning</h1>
+    <p class="page-subtitle">Master the building blocks of Chinese characters. Mark radicals as learned and track your progress.</p>
   </div>
 
-  <div style="margin-bottom:1.25rem">
-    <button class="btn btn-ghost btn-sm" onclick="animateAll()">▶ Animate All</button>
-    <button class="btn btn-ghost btn-sm" style="margin-left:.4rem" onclick="resetAll()">↺ Reset All</button>
+  <!-- Stats bar -->
+  <div class="rad-stats" id="radStats"></div>
+
+  <!-- Progress bar -->
+  <div class="rad-prog-wrap">
+    <div class="rad-prog-bar"><div class="rad-prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="rad-prog-label" id="progLabel">0 / 0 learned</div>
   </div>
 
-  <div class="strokes-grid" id="strokesGrid">
-    <div class="loading-state">Loading stroke data…</div>
+  <!-- Controls -->
+  <div class="rad-controls">
+    <input id="radSearch" class="search-input" type="search"
+      placeholder="Search radical, pinyin, meaning…" autocomplete="off" />
+    <div class="filter-chips" id="catChips"></div>
+    <span class="result-badge" id="resultBadge"></span>
   </div>
+
+  <!-- Detail panel (shown above grid on click) -->
+  <div class="rad-detail" id="radDetail" style="display:none">
+    <button class="rad-detail-close" onclick="closeDetail()" title="Close">×</button>
+    <div class="rad-detail-body" id="radDetailBody"></div>
+  </div>
+
+  <!-- Grid -->
+  <div class="rad-grid" id="radGrid"></div>
 </main>
 
 <footer>
   <p>學中文 — Open-source Traditional Chinese study tool · MIT License</p>
 </footer>
 
-<script src="data/vocabulary.js"></script>
-<script src="data/reading.js"></script>
-<script src="data/grammar.js"></script>
-<script src="data/strokes.js"></script>
-<script src="js/main.js"></script>
 <script>
-  function animateAll() {
-    strokesData.forEach(s => {
-      if (typeof strokeAnimate === 'function') strokeAnimate(s.id, s.strokeCount);
-    });
+/* ─────────────────────────────────────────────────────────────
+   Data
+───────────────────────────────────────────────────────────── */
+const RADICALS = [
+  {char:'人',alt:'亻',py:'rén',meaning:'person',strokes:2,cat:'people',examples:['他','你','休','做','們','住','信','借']},
+  {char:'女',py:'nǚ',meaning:'woman',strokes:3,cat:'people',examples:['她','姐','妹','媽','好','姓','婚','嫁']},
+  {char:'子',py:'zǐ',meaning:'child',strokes:3,cat:'people',examples:['好','字','孩','孫','學','存','孤']},
+  {char:'老',py:'lǎo',meaning:'old person',strokes:6,cat:'people',examples:['老','考','者','孝']},
+  {char:'王',py:'wáng',meaning:'king',strokes:4,cat:'people',examples:['現','玩','球','理','珍','班','珠']},
+  {char:'父',py:'fù',meaning:'father',strokes:4,cat:'people',examples:['爸','爹','父']},
+  {char:'大',py:'dà',meaning:'big/great',strokes:3,cat:'people',examples:['天','太','夫','央','奇','夾','奔']},
+  {char:'小',py:'xiǎo',meaning:'small',strokes:3,cat:'people',examples:['少','尖','省','塵','雀']},
+  {char:'木',py:'mù',meaning:'tree/wood',strokes:4,cat:'nature',examples:['林','森','桌','椅','樹','校','橋','根']},
+  {char:'水',alt:'氵',py:'shuǐ',meaning:'water',strokes:4,cat:'nature',examples:['海','河','湖','游','泳','洗','清','流']},
+  {char:'火',alt:'灬',py:'huǒ',meaning:'fire',strokes:4,cat:'nature',examples:['炎','熱','煮','然','燒','燈','煙']},
+  {char:'土',py:'tǔ',meaning:'earth/soil',strokes:3,cat:'nature',examples:['地','城','場','塊','基','堂','報']},
+  {char:'山',py:'shān',meaning:'mountain',strokes:3,cat:'nature',examples:['岸','島','峰','崖','嶺','岡']},
+  {char:'日',py:'rì',meaning:'sun/day',strokes:4,cat:'nature',examples:['明','時','晴','暖','昨','星','早','晚']},
+  {char:'月',py:'yuè',meaning:'moon/month',strokes:4,cat:'nature',examples:['明','朋','期','服','望','朝']},
+  {char:'金',alt:'釒',py:'jīn',meaning:'metal/gold',strokes:8,cat:'nature',examples:['銀','鐵','鋼','錢','針','鏡','銅']},
+  {char:'石',py:'shí',meaning:'stone/rock',strokes:5,cat:'nature',examples:['研','破','碗','確','碰','磁']},
+  {char:'草',alt:'艹',py:'cǎo',meaning:'grass/plant',strokes:9,cat:'nature',examples:['花','茶','菜','草','葉','藥','蔬']},
+  {char:'竹',py:'zhú',meaning:'bamboo',strokes:6,cat:'nature',examples:['筆','籃','篇','箱','管','算','節']},
+  {char:'米',py:'mǐ',meaning:'rice/grain',strokes:6,cat:'nature',examples:['粉','糖','粒','精','糟','粥']},
+  {char:'風',py:'fēng',meaning:'wind',strokes:9,cat:'nature',examples:['颱','颳','飄']},
+  {char:'雨',py:'yǔ',meaning:'rain',strokes:8,cat:'nature',examples:['雪','雲','電','霧','霜','露','霞']},
+  {char:'魚',py:'yú',meaning:'fish',strokes:11,cat:'nature',examples:['鮮','鯊','鯨','鱷','鮑']},
+  {char:'鳥',py:'niǎo',meaning:'bird',strokes:11,cat:'nature',examples:['鴨','雞','鶴','鵝','鸚','鴿']},
+  {char:'虫',py:'chóng',meaning:'insect/creature',strokes:6,cat:'nature',examples:['蟲','蛇','蝴','螞','蜂','蜘']},
+  {char:'田',py:'tián',meaning:'field/farm',strokes:5,cat:'nature',examples:['男','思','累','畫','畢','留','番']},
+  {char:'白',py:'bái',meaning:'white/clear',strokes:5,cat:'nature',examples:['百','的','皮','泊','帕','拍']},
+  {char:'長',py:'cháng',meaning:'long/grow',strokes:8,cat:'nature',examples:['張','帳','脹']},
+  {char:'黑',py:'hēi',meaning:'black/dark',strokes:12,cat:'nature',examples:['默','點','墨','黯']},
+  {char:'口',py:'kǒu',meaning:'mouth',strokes:3,cat:'body',examples:['吃','喝','叫','唱','品','呢','啊','哈']},
+  {char:'手',alt:'扌',py:'shǒu',meaning:'hand',strokes:4,cat:'body',examples:['打','找','把','接','推','拉','提','拿']},
+  {char:'足',alt:'⻊',py:'zú',meaning:'foot',strokes:7,cat:'body',examples:['跑','跳','踢','路','跟','距','蹲']},
+  {char:'目',py:'mù',meaning:'eye',strokes:5,cat:'body',examples:['看','睛','眼','睡','盲','眉','眾']},
+  {char:'耳',py:'ěr',meaning:'ear',strokes:6,cat:'body',examples:['聽','聲','聞','職','聯']},
+  {char:'心',alt:'忄',py:'xīn',meaning:'heart/mind',strokes:4,cat:'body',examples:['想','感','情','思','忘','忙','快','恨']},
+  {char:'骨',py:'gǔ',meaning:'bone',strokes:9,cat:'body',examples:['體','骼','髓','髏']},
+  {char:'肉',alt:'月',py:'ròu',meaning:'flesh/body',strokes:6,cat:'body',examples:['胸','背','脖','腿','臉','肚','腰','肩']},
+  {char:'頁',py:'yè',meaning:'head/page',strokes:9,cat:'body',examples:['頭','頸','額','顏','題','項','順']},
+  {char:'毛',py:'máo',meaning:'hair/fur',strokes:4,cat:'body',examples:['毯','毫','氈','毽']},
+  {char:'牙',py:'yá',meaning:'tooth',strokes:4,cat:'body',examples:['牙','邪','芽']},
+  {char:'尸',py:'shī',meaning:'body/corpse',strokes:3,cat:'body',examples:['層','屋','居','局','展','尿','屁']},
+  {char:'刀',alt:'刂',py:'dāo',meaning:'knife/cut',strokes:2,cat:'objects',examples:['切','別','到','刺','刻','劃','剪','分']},
+  {char:'弓',py:'gōng',meaning:'bow weapon',strokes:3,cat:'objects',examples:['弦','張','強','彈','彎']},
+  {char:'車',py:'chē',meaning:'vehicle',strokes:7,cat:'objects',examples:['輪','軍','軌','輕','較','轉']},
+  {char:'門',py:'mén',meaning:'door/gate',strokes:8,cat:'objects',examples:['間','問','開','關','閉','閒','閃']},
+  {char:'衣',alt:'衤',py:'yī',meaning:'clothing',strokes:6,cat:'objects',examples:['裙','褲','袋','被','補','裝','初']},
+  {char:'食',py:'shí',meaning:'food/eat',strokes:9,cat:'objects',examples:['飯','飲','餐','館','飽','餓','養']},
+  {char:'宀',py:'mián',meaning:'roof/shelter',strokes:3,cat:'objects',examples:['家','室','安','宇','完','定','字']},
+  {char:'囗',py:'wéi',meaning:'enclosure',strokes:3,cat:'objects',examples:['國','圓','圖','固','困','回','因']},
+  {char:'皿',py:'mǐn',meaning:'dish/vessel',strokes:5,cat:'objects',examples:['盤','盆','盛','監','盟','益']},
+  {char:'貝',py:'bèi',meaning:'shell/money',strokes:7,cat:'objects',examples:['財','貴','買','賣','費','賞','貧']},
+  {char:'糸',alt:'纟',py:'mì',meaning:'silk/thread',strokes:6,cat:'objects',examples:['線','絲','紅','綠','結','終','緣']},
+  {char:'巾',py:'jīn',meaning:'cloth/towel',strokes:3,cat:'objects',examples:['帽','帶','師','布','幕','席','帳']},
+  {char:'方',py:'fāng',meaning:'square/direction',strokes:4,cat:'objects',examples:['房','放','旁','旅','旋','族']},
+  {char:'广',py:'guǎng',meaning:'shelter/wide',strokes:3,cat:'objects',examples:['店','床','廚','廣','座','應','廳']},
+  {char:'矢',py:'shǐ',meaning:'arrow',strokes:5,cat:'objects',examples:['知','短','醫','矮']},
+  {char:'言',alt:'訁',py:'yán',meaning:'speech/words',strokes:7,cat:'actions',examples:['說','話','語','請','謝','讀','記','誰']},
+  {char:'行',py:'xíng',meaning:'walk/travel',strokes:6,cat:'actions',examples:['街','術','衛','往','很','得','德']},
+  {char:'走',py:'zǒu',meaning:'walk/run',strokes:7,cat:'actions',examples:['起','赴','越','趕','趣','超']},
+  {char:'力',py:'lì',meaning:'strength/power',strokes:2,cat:'actions',examples:['努','勒','勇','動','助','勝','功']},
+  {char:'工',py:'gōng',meaning:'work/labor',strokes:3,cat:'actions',examples:['左','差','空','功','攻','江']},
+  {char:'見',py:'jiàn',meaning:'see/observe',strokes:7,cat:'actions',examples:['現','視','觀','覺','親','覽']},
+  {char:'示',alt:'礻',py:'shì',meaning:'show/spirit',strokes:5,cat:'actions',examples:['神','社','祖','福','禮','禱']},
+  {char:'攵',py:'pū',meaning:'strike/hit',strokes:4,cat:'actions',examples:['教','收','放','改','政','故','敵']},
+  {char:'又',py:'yòu',meaning:'again/hand',strokes:2,cat:'actions',examples:['雙','取','受','友','反','叔']},
+  {char:'彳',py:'chì',meaning:'step/walk',strokes:3,cat:'actions',examples:['很','得','待','街','徒','後','德']},
+  {char:'辶',py:'chuò',meaning:'movement',strokes:4,cat:'actions',examples:['道','過','進','還','這','遠','近','送']},
+  {char:'阝',py:'fù',meaning:'mound/city',strokes:3,cat:'actions',examples:['陸','院','陽','防','都','部','郊','鄰']},
+  {char:'欠',py:'qiàn',meaning:'yawn/owe',strokes:4,cat:'actions',examples:['歌','歡','款','次','欲','欣']},
+  {char:'止',py:'zhǐ',meaning:'stop',strokes:4,cat:'actions',examples:['步','此','些','武','歲','正','歷']},
+  {char:'立',py:'lì',meaning:'stand',strokes:5,cat:'actions',examples:['站','章','童','竟','競','端']},
+  {char:'生',py:'shēng',meaning:'life/birth',strokes:5,cat:'actions',examples:['姓','性','星','醒','勝']},
+  {char:'用',py:'yòng',meaning:'use',strokes:5,cat:'actions',examples:['用','甬','桶','痛']},
+  {char:'气',py:'qì',meaning:'air/breath',strokes:4,cat:'actions',examples:['氣','氧','氮','氦']},
+  {char:'比',py:'bǐ',meaning:'compare',strokes:4,cat:'actions',examples:['批','昆','皆','琵','毗']},
+];
+
+/* ─────────────────────────────────────────────────────────────
+   Config
+───────────────────────────────────────────────────────────── */
+const CAT_LABELS = {
+  all:     '全部 All',
+  nature:  '自然 Nature',
+  body:    '身體 Body',
+  people:  '人 People',
+  objects: '物品 Objects',
+  actions: '動作 Actions',
+};
+
+let activeFilter = 'all';
+let searchQuery  = '';
+let selectedChar = null;
+
+/* ─────────────────────────────────────────────────────────────
+   localStorage
+───────────────────────────────────────────────────────────── */
+function getLearnedSet() {
+  try { return new Set(JSON.parse(localStorage.getItem('learned_radicals') || '[]')); }
+  catch { return new Set(); }
+}
+function saveLearnedSet(set) {
+  localStorage.setItem('learned_radicals', JSON.stringify([...set]));
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Stats bar
+───────────────────────────────────────────────────────────── */
+function renderStats() {
+  const learned = getLearnedSet();
+  const counts  = { nature:0, body:0, people:0, objects:0, actions:0 };
+  for (const r of RADICALS) counts[r.cat]++;
+
+  const metrics = [
+    { val: RADICALS.length,   label: 'Total' },
+    { val: counts.nature,     label: '自然 Nature' },
+    { val: counts.body,       label: '身體 Body' },
+    { val: counts.people,     label: '人 People' },
+    { val: counts.objects,    label: '物品 Objects' },
+    { val: counts.actions,    label: '動作 Actions' },
+  ];
+
+  document.getElementById('radStats').innerHTML = metrics.map(m => `
+    <div class="rad-stat-card">
+      <div class="rad-stat-val">${m.val}</div>
+      <div class="rad-stat-label">${m.label}</div>
+    </div>`).join('');
+
+  const pct = RADICALS.length ? learned.size / RADICALS.length * 100 : 0;
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').textContent =
+    `${learned.size} / ${RADICALS.length} learned`;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Category chips
+───────────────────────────────────────────────────────────── */
+function renderCatChips() {
+  const cats = ['all', 'nature', 'body', 'people', 'objects', 'actions'];
+  document.getElementById('catChips').innerHTML = cats.map(c => `
+    <button class="chip ${activeFilter === c ? 'active' : ''}"
+            onclick="setFilter('${c}')">${CAT_LABELS[c]}</button>`).join('');
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Grid
+───────────────────────────────────────────────────────────── */
+function filteredList() {
+  let list = RADICALS;
+  if (activeFilter !== 'all') list = list.filter(r => r.cat === activeFilter);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(r =>
+      r.char.includes(q) ||
+      (r.alt || '').includes(q) ||
+      r.py.toLowerCase().includes(q) ||
+      r.meaning.toLowerCase().includes(q)
+    );
   }
-  function resetAll() {
-    strokesData.forEach(s => {
-      if (typeof strokeReset === 'function') strokeReset(s.id, s.strokeCount);
-    });
+  return list;
+}
+
+function renderGrid() {
+  const list    = filteredList();
+  const learned = getLearnedSet();
+  const grid    = document.getElementById('radGrid');
+
+  document.getElementById('resultBadge').textContent =
+    `${list.length} radical${list.length !== 1 ? 's' : ''}`;
+
+  if (!list.length) {
+    grid.innerHTML = `<div class="rad-empty">
+      <div class="rad-empty-icon">🔍</div>
+      <div>No radicals match your search.</div></div>`;
+    return;
   }
+
+  grid.innerHTML = list.map(r => {
+    const isLearned  = learned.has(r.char);
+    const isSelected = selectedChar === r.char;
+    return `
+      <div class="rad-card ${isSelected ? 'selected' : ''} ${isLearned ? 'learned-card' : ''}"
+           onclick="openDetail('${r.char}')">
+        <span class="rad-stroke-badge">${r.strokes}画</span>
+        <span class="rad-cat-badge cat-${r.cat}">${r.cat}</span>
+        <div class="rad-char chinese">${r.char}</div>
+        <div class="rad-alt">${r.alt || ''}</div>
+        <div class="rad-py">${r.py}</div>
+        <div class="rad-meaning">${r.meaning}</div>
+        <button class="rad-bookmark ${isLearned ? 'marked' : ''}"
+                onclick="toggleLearned(event,'${r.char}')"
+                title="${isLearned ? 'Unmark' : 'Mark as learned'}">
+          ${isLearned ? '★' : '☆'}
+        </button>
+      </div>`;
+  }).join('');
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Detail panel
+───────────────────────────────────────────────────────────── */
+function openDetail(char) {
+  const r = RADICALS.find(x => x.char === char);
+  if (!r) return;
+  selectedChar = char;
+
+  const learned = getLearnedSet();
+  const isLearned = learned.has(char);
+
+  document.getElementById('radDetailBody').innerHTML = `
+    <div class="rad-detail-char chinese">${r.char}</div>
+    <div class="rad-detail-info">
+      <div class="rad-detail-py">${r.py}</div>
+      <div class="rad-detail-meaning">${r.meaning}</div>
+      <div class="rad-detail-meta">
+        <span>${r.strokes} strokes</span>
+        ${r.alt ? `<span>Alt form: <span style="font-family:var(--font-chinese)">${r.alt}</span></span>` : ''}
+        <span class="rad-cat-badge cat-${r.cat}" style="position:static;font-size:.7rem;padding:.15rem .6rem">${CAT_LABELS[r.cat]}</span>
+      </div>
+      <div class="rad-detail-examples-label">Example characters</div>
+      <div class="rad-detail-examples">
+        ${r.examples.map(e => `<span class="ex-chip">${e}</span>`).join('')}
+      </div>
+      <div style="display:flex;gap:.55rem;align-items:center;flex-wrap:wrap">
+        <a class="rad-practice-btn" href="conversation.html">
+          💬 Practice conversation
+        </a>
+        <button class="rad-practice-btn"
+                style="background:${isLearned ? 'var(--success)' : 'transparent'};
+                       color:${isLearned ? '#fff' : 'var(--primary)'};
+                       border:1.5px solid ${isLearned ? 'var(--success)' : 'var(--primary)'}"
+                onclick="toggleLearned(null,'${r.char}')">
+          ${isLearned ? '★ Learned' : '☆ Mark learned'}
+        </button>
+      </div>
+    </div>`;
+
+  const panel = document.getElementById('radDetail');
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  renderGrid();
+}
+
+function closeDetail() {
+  document.getElementById('radDetail').style.display = 'none';
+  selectedChar = null;
+  renderGrid();
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Interactions
+───────────────────────────────────────────────────────────── */
+function setFilter(cat) {
+  activeFilter = cat;
+  closeDetail();
+  renderCatChips();
+  renderGrid();
+}
+
+function toggleLearned(evt, char) {
+  if (evt) evt.stopPropagation();
+  const set = getLearnedSet();
+  if (set.has(char)) { set.delete(char); } else { set.add(char); }
+  saveLearnedSet(set);
+  renderStats();
+  renderGrid();
+  if (selectedChar === char) openDetail(char);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Init
+───────────────────────────────────────────────────────────── */
+document.getElementById('radSearch').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  renderCatChips();
+  renderGrid();
+});
+
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+renderStats();
+renderCatChips();
+renderGrid();
 </script>
 </body>
 </html>

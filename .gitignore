@@ -1,0 +1,7 @@
+# API keys — never commit
+config.js
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+convert_vocab.py

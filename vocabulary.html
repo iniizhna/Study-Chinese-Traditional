@@ -8,6 +8,259 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PGREQC103Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PGREQC103Z');
+  </script>
+  <style>
+    /* ── Level Cards ─────────────────────────────────────────── */
+    .level-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .85rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 700px) {
+      .level-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 400px) {
+      .level-strip { grid-template-columns: 1fr; }
+    }
+
+    .level-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1rem;
+      background: var(--bg);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: border-color var(--transition), box-shadow var(--transition), opacity var(--transition);
+      position: relative;
+      user-select: none;
+    }
+    .level-card.locked {
+      opacity: .52;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .level-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59,111,232,.13);
+    }
+    .level-card:not(.locked):not(.active):hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-up);
+    }
+
+    .level-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: .45rem;
+    }
+    .level-card-name {
+      font-family: var(--font-chinese);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .level-card-en {
+      font-size: .72rem;
+      color: var(--muted);
+      margin-top: .1rem;
+    }
+    .level-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-left: .3rem;
+    }
+    .level-card-count {
+      font-size: .75rem;
+      color: var(--muted);
+      margin-bottom: .55rem;
+    }
+
+    .level-prog-bar {
+      height: 5px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: .35rem;
+    }
+    .level-prog-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 99px;
+      transition: width .4s ease;
+    }
+    .level-prog-fill.complete { background: var(--success); }
+    .level-prog-label {
+      font-size: .7rem;
+      color: var(--muted);
+    }
+
+    /* ── Category bar ────────────────────────────────────────── */
+    .cat-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+    .cat-bar-label {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--muted);
+      margin-right: .15rem;
+      white-space: nowrap;
+    }
+
+    /* ── Search ──────────────────────────────────────────────── */
+    .vocab-search-row {
+      display: flex;
+      gap: .65rem;
+      margin-bottom: 1.1rem;
+      align-items: center;
+    }
+    .vocab-search-row .search-input { max-width: 360px; }
+    .vocab-count-label {
+      font-size: .78rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ── Vocab Grid (override for 3-4 cols) ──────────────────── */
+    .vocab-grid {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    @media (max-width: 480px) {
+      .vocab-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── Word Card ───────────────────────────────────────────── */
+    .vocab-card {
+      padding: 1rem .95rem;
+      position: relative;
+    }
+    .vocab-card.learned {
+      border-color: var(--success);
+      background: var(--success-light);
+    }
+    .vocab-char { font-size: 2.4rem; margin-bottom: .15rem; }
+    .vocab-pinyin { font-size: .95rem; margin-bottom: .1rem; }
+    .vocab-meaning {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: .5rem;
+      min-height: 1.2em;
+    }
+    .meaning-placeholder {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .78rem;
+      color: var(--muted);
+      cursor: pointer;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: .12rem .45rem;
+      transition: all var(--transition);
+    }
+    .meaning-placeholder:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+    .meaning-spinner {
+      width: 12px; height: 12px;
+      border: 2px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .vocab-meta {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin-bottom: .6rem;
+    }
+    .pos-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: .66rem;
+      font-weight: 700;
+      padding: .1rem .45rem;
+      border-radius: 999px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .cat-tag {
+      font-size: .67rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .1rem .42rem;
+      font-family: var(--font-chinese);
+      white-space: nowrap;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .learn-btn {
+      width: 100%;
+      margin-top: auto;
+      padding: .38rem .75rem;
+      border-radius: var(--radius);
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font-ui);
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .3rem;
+    }
+    .learn-btn:hover {
+      border-color: var(--success);
+      color: #15803d;
+      background: #f0fdf4;
+    }
+    .learn-btn.learned-state {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success);
+    }
+    .learn-btn.learned-state:hover {
+      background: #16a34a;
+      border-color: #16a34a;
+    }
+
+    /* ── Empty / Loading states ──────────────────────────────── */
+    .vocab-empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+    .vocab-empty-icon { font-size: 2.5rem; margin-bottom: .5rem; }
+  </style>
 </head>
 <body>
 
@@ -19,7 +272,7 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">首頁</a></li>
-      <li><a href="vocabulary.html">詞彙</a></li>
+      <li><a href="vocabulary.html" class="active">詞彙</a></li>
       <li><a href="reading.html">閱讀</a></li>
       <li><a href="grammar.html">文法</a></li>
       <li><a href="strokes.html">筆順</a></li>
@@ -31,39 +284,312 @@
 <main>
   <div class="page-header">
     <h1 class="page-title">詞彙 Vocabulary</h1>
-    <p class="page-subtitle">Browse words, filter by category, and mark them as learned. Progress is saved in your browser.</p>
+    <p class="page-subtitle">Complete levels in order. Mark words as learned to unlock the next level.</p>
   </div>
 
-  <!-- Controls -->
-  <div class="controls">
-    <input
-      id="vocabSearch"
-      class="search-input"
-      type="search"
-      placeholder="Search Chinese, pinyin, or English…"
-      autocomplete="off"
-    />
+  <!-- Level progression cards -->
+  <div class="level-strip" id="levelStrip">
+    <div class="loading-state">Loading levels…</div>
   </div>
 
-  <div class="controls" style="margin-top:-.75rem">
-    <div class="section-label" style="width:100%">Filter by category</div>
-    <div class="filter-chips" id="vocabFilters"></div>
+  <!-- Category filter bar -->
+  <div class="cat-bar" id="catBar" style="display:none">
+    <span class="cat-bar-label">Category</span>
+    <div id="catChips"></div>
+  </div>
+
+  <!-- Search -->
+  <div class="vocab-search-row" id="searchRow" style="display:none">
+    <input id="vocabSearch" class="search-input" type="search"
+      placeholder="Search Chinese or pinyin…" autocomplete="off" />
+    <span class="vocab-count-label" id="wordCount"></span>
   </div>
 
   <!-- Vocabulary Grid -->
-  <div class="vocab-grid" id="vocabGrid">
-    <div class="loading-state">Loading vocabulary…</div>
-  </div>
+  <div class="vocab-grid" id="vocabGrid"></div>
 </main>
 
 <footer>
   <p>學中文 — Open-source Traditional Chinese study tool · MIT License</p>
 </footer>
 
-<script src="data/vocabulary.js"></script>
-<script src="data/reading.js"></script>
-<script src="data/grammar.js"></script>
-<script src="data/strokes.js"></script>
-<script src="js/main.js"></script>
+<script src="config.js"></script>
+<script>
+/* ─────────────────────────────────────────────────────────────
+   State
+───────────────────────────────────────────────────────────── */
+const LEVELS = [
+  { level:'novice1', label:'準備級一級', en:'Novice 1', threshold:0.8 },
+  { level:'novice2', label:'準備級二級', en:'Novice 2', threshold:0.8 },
+  { level:'a1',      label:'入門級',    en:'A1',       threshold:0.8 },
+  { level:'a2',      label:'基礎級',    en:'A2',       threshold:0.8 },
+];
+
+let allWords = [];          // full JSON
+let byLevel  = {};          // { novice1: [...], novice2: [...], ... }
+let activeLevel = 'novice1';
+let activeCat   = 'all';
+let searchQuery = '';
+
+/* ─────────────────────────────────────────────────────────────
+   localStorage helpers
+───────────────────────────────────────────────────────────── */
+function learnedKey(level) { return `learned_${level}`; }
+
+function getLearnedSet(level) {
+  try { return new Set(JSON.parse(localStorage.getItem(learnedKey(level)) || '[]')); }
+  catch { return new Set(); }
+}
+
+function saveLearnedSet(level, set) {
+  localStorage.setItem(learnedKey(level), JSON.stringify([...set]));
+}
+
+function getMeaningsCache() {
+  try { return JSON.parse(localStorage.getItem('meanings_cache') || '{}'); }
+  catch { return {}; }
+}
+
+function saveMeaning(id, meaning) {
+  const c = getMeaningsCache();
+  c[id] = meaning;
+  localStorage.setItem('meanings_cache', JSON.stringify(c));
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Progress helpers
+───────────────────────────────────────────────────────────── */
+function levelProgress(level) {
+  const words = byLevel[level] || [];
+  if (!words.length) return 0;
+  return getLearnedSet(level).size / words.length;
+}
+
+function isLevelUnlocked(idx) {
+  if (idx === 0) return true;
+  return levelProgress(LEVELS[idx-1].level) >= LEVELS[idx-1].threshold;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Render level cards
+───────────────────────────────────────────────────────────── */
+function renderLevelStrip() {
+  const strip = document.getElementById('levelStrip');
+  strip.innerHTML = LEVELS.map((lv, i) => {
+    const unlocked = isLevelUnlocked(i);
+    const words    = byLevel[lv.level] || [];
+    const pct      = levelProgress(lv.level);
+    const pctPx    = Math.round(pct * 100);
+    const isActive = lv.level === activeLevel;
+    const complete  = pct >= lv.threshold;
+    return `
+      <div class="level-card ${unlocked ? '' : 'locked'} ${isActive ? 'active' : ''}"
+           data-level="${lv.level}" onclick="selectLevel('${lv.level}')">
+        <div class="level-card-header">
+          <div>
+            <div class="level-card-name">${lv.label}</div>
+            <div class="level-card-en">${lv.en}</div>
+          </div>
+          <span class="level-icon">${unlocked ? (isActive ? '📖' : '✅') : '🔒'}</span>
+        </div>
+        <div class="level-card-count">${words.length} words</div>
+        <div class="level-prog-bar">
+          <div class="level-prog-fill ${complete ? 'complete' : ''}" style="width:${pctPx}%"></div>
+        </div>
+        <div class="level-prog-label">${pctPx}% learned${complete ? ' — unlocks next' : ''}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Category bar
+───────────────────────────────────────────────────────────── */
+function renderCatBar() {
+  const words = byLevel[activeLevel] || [];
+  const cats  = ['all', ...new Set(words.map(w => w.categoryEn))];
+  document.getElementById('catChips').innerHTML = cats.map(c => `
+    <button class="chip ${activeCat === c ? 'active' : ''}"
+            onclick="selectCat('${c}')">${c === 'all' ? 'All' : c}</button>
+  `).join('');
+  document.getElementById('catBar').style.display = 'flex';
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Vocab grid
+───────────────────────────────────────────────────────────── */
+function renderGrid() {
+  const grid    = document.getElementById('vocabGrid');
+  const learned = getLearnedSet(activeLevel);
+  const cache   = getMeaningsCache();
+  const words   = byLevel[activeLevel] || [];
+
+  let filtered = words;
+  if (activeCat !== 'all') filtered = filtered.filter(w => w.categoryEn === activeCat);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(w =>
+      w.chinese.toLowerCase().includes(q) ||
+      w.pinyin.toLowerCase().includes(q)
+    );
+  }
+
+  document.getElementById('wordCount').textContent =
+    `${filtered.length} of ${words.length} words`;
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="vocab-empty">
+      <div class="vocab-empty-icon">🔍</div>
+      <div>No words match your search.</div>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(w => {
+    const isLearned = learned.has(w.id);
+    const meaning   = w.meaning || cache[w.id] || '';
+    const meaningHtml = meaning
+      ? `<div class="vocab-meaning">${escHtml(meaning)}</div>`
+      : `<div class="vocab-meaning">
+           <span class="meaning-placeholder" onclick="fetchMeaning(event,'${w.id}')">
+             ? <span>get meaning</span>
+           </span>
+         </div>`;
+    return `
+      <div class="vocab-card ${isLearned ? 'learned' : ''}" id="card-${w.id}">
+        <div class="vocab-char chinese">${escHtml(w.chinese)}</div>
+        <div class="vocab-pinyin pinyin">${escHtml(w.pinyin)}</div>
+        ${meaningHtml}
+        <div class="vocab-meta">
+          ${w.partOfSpeech ? `<span class="pos-badge">${escHtml(w.partOfSpeech)}</span>` : ''}
+          <span class="cat-tag">${escHtml(w.categoryEn)}</span>
+        </div>
+        <button class="learn-btn ${isLearned ? 'learned-state' : ''}"
+                onclick="toggleLearned('${w.id}')">
+          ${isLearned ? '✓ Learned' : 'Mark as learned'}
+        </button>
+      </div>`;
+  }).join('');
+
+  document.getElementById('searchRow').style.display = 'flex';
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Interactions
+───────────────────────────────────────────────────────────── */
+function selectLevel(level) {
+  const idx = LEVELS.findIndex(l => l.level === level);
+  if (!isLevelUnlocked(idx)) return;
+  activeLevel = level;
+  activeCat   = 'all';
+  searchQuery = '';
+  document.getElementById('vocabSearch').value = '';
+  renderLevelStrip();
+  renderCatBar();
+  renderGrid();
+}
+
+function selectCat(cat) {
+  activeCat = cat;
+  renderCatBar();
+  renderGrid();
+}
+
+function toggleLearned(id) {
+  const set = getLearnedSet(activeLevel);
+  if (set.has(id)) { set.delete(id); } else { set.add(id); }
+  saveLearnedSet(activeLevel, set);
+  renderLevelStrip();
+  renderGrid();
+}
+
+/* ─────────────────────────────────────────────────────────────
+   On-demand meaning via Claude API
+───────────────────────────────────────────────────────────── */
+async function fetchMeaning(evt, id) {
+  evt.stopPropagation();
+  const placeholder = evt.currentTarget;
+  const word = allWords.find(w => w.id === id);
+  if (!word) return;
+
+  // show spinner
+  placeholder.innerHTML = `<span class="meaning-spinner"></span> fetching…`;
+  placeholder.style.pointerEvents = 'none';
+
+  const apiKey = (typeof CONFIG !== 'undefined' && CONFIG.apiKey) ? CONFIG.apiKey : '';
+  if (!apiKey) {
+    updateMeaningEl(id, '[Add API key in config.js]');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 30,
+        messages: [{
+          role: 'user',
+          content: `What is the English meaning of the Traditional Chinese word "${word.chinese}" (pinyin: ${word.pinyin}, part of speech: ${word.partOfSpeech})? Reply with ONLY the English meaning, nothing else. Max 5 words.`
+        }]
+      })
+    });
+    const data = await res.json();
+    const meaning = data?.content?.[0]?.text?.trim() || '(unknown)';
+    saveMeaning(id, meaning);
+    updateMeaningEl(id, meaning);
+  } catch(e) {
+    updateMeaningEl(id, '(fetch failed)');
+  }
+}
+
+function updateMeaningEl(id, meaning) {
+  const card = document.getElementById(`card-${id}`);
+  if (!card) return;
+  const meaningDiv = card.querySelector('.vocab-meaning');
+  if (meaningDiv) meaningDiv.innerHTML = escHtml(meaning);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Init
+───────────────────────────────────────────────────────────── */
+document.getElementById('vocabSearch').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  renderGrid();
+});
+
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+fetch('data/vocabulary.json')
+  .then(r => r.json())
+  .then(data => {
+    allWords = data;
+    byLevel  = {};
+    for (const lv of LEVELS) byLevel[lv.level] = [];
+    for (const w of data) {
+      if (byLevel[w.level]) byLevel[w.level].push(w);
+    }
+    renderLevelStrip();
+    renderCatBar();
+    renderGrid();
+  })
+  .catch(() => {
+    document.getElementById('levelStrip').innerHTML =
+      '<div class="loading-state">Failed to load vocabulary data.</div>';
+  });
+</script>
 </body>
 </html>

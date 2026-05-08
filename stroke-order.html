@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>文法 Grammar — 學中文</title>
+  <title>筆順 Stroke Order — 學中文</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PGREQC103Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-PGREQC103Z');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PGREQC103Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PGREQC103Z');
+  </script>
 </head>
 <body>
 
@@ -32,7 +31,7 @@
       <li><a href="reading.html">閱讀</a></li>
       <li><a href="grammar.html">文法</a></li>
       <li><a href="strokes.html">部首</a></li>
-      <li><a href="stroke-order.html">筆順</a></li>
+      <li><a href="stroke-order.html" class="active">筆順</a></li>
       <li><a href="conversation.html">對話</a></li>
     </ul>
   </div>
@@ -40,17 +39,17 @@
 
 <main>
   <div class="page-header">
-    <h1 class="page-title">文法 Grammar Notes</h1>
-    <p class="page-subtitle">Click any section to expand it. Each point includes a pattern, explanation, and example sentences.</p>
+    <h1 class="page-title">筆順 Stroke Order</h1>
+    <p class="page-subtitle">Use <strong>Next ›</strong> to step through strokes one at a time, or <strong>▶</strong> to animate the full sequence automatically.</p>
   </div>
 
-  <div style="margin-bottom:1rem">
-    <button class="btn btn-ghost btn-sm" onclick="expandAll()">Expand All</button>
-    <button class="btn btn-ghost btn-sm" style="margin-left:.4rem" onclick="collapseAll()">Collapse All</button>
+  <div style="margin-bottom:1.25rem">
+    <button class="btn btn-ghost btn-sm" onclick="animateAll()">▶ Animate All</button>
+    <button class="btn btn-ghost btn-sm" style="margin-left:.4rem" onclick="resetAll()">↺ Reset All</button>
   </div>
 
-  <div class="grammar-list" id="grammarList">
-    <div class="loading-state">Loading grammar notes…</div>
+  <div class="strokes-grid" id="strokesGrid">
+    <div class="loading-state">Loading stroke data…</div>
   </div>
 </main>
 
@@ -64,8 +63,19 @@
 <script src="data/strokes.js"></script>
 <script src="js/main.js"></script>
 <script>
-  function expandAll()  { document.querySelectorAll('.grammar-item').forEach(el => el.classList.add('open')); }
-  function collapseAll(){ document.querySelectorAll('.grammar-item').forEach(el => el.classList.remove('open')); }
+  document.getElementById('navToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  function animateAll() {
+    strokesData.forEach(s => {
+      if (typeof strokeAnimate === 'function') strokeAnimate(s.id, s.strokeCount);
+    });
+  }
+  function resetAll() {
+    strokesData.forEach(s => {
+      if (typeof strokeReset === 'function') strokeReset(s.id, s.strokeCount);
+    });
+  }
 </script>
 </body>
 </html>
